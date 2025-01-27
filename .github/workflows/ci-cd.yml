@@ -24,15 +24,15 @@ jobs:
     - name: Build and push Service1 Docker image using Debian Bookworm
       uses: docker/build-push-action@v3
       with:
-        context: .
-        file: service1/Dockerfile
+        context: service1
+        file: Dockerfile
         push: true
         tags: pjuwy/service1:${{ github.ref_name }} 
 
     - name: Build and push Service2 Docker image using Debian Bookworm
       uses: docker/build-push-action@v3
       with:
-        context: .
-        file: service2/Dockerfile
+        context: service2
+        file: Dockerfile
         push: true
         tags: pjuwy/service2:${{ github.ref_name }}
