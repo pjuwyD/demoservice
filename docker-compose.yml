@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  service1:
+    image: service1
+    container_name: service1
+    networks:
+      - microservices-network
+    expose:
+      - 8080
+
+  service2:
+    image: service2
+    container_name: service2
+    networks:
+      - microservices-network
+    environment:
+      - SERVICE1_URL=http://service1:8080
+    depends_on:
+      - service1
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+
+networks:
+  microservices-network:
+    driver: bridge
