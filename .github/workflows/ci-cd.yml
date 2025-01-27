@@ -12,6 +12,32 @@ jobs:
     - name: Checkout the code
       uses: actions/checkout@v3
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.13'
+
+    - name: Install pytest
+      run: pip install pytest
+
+    # Run unit tests for Service1
+    - name: Run unit tests for Service1
+      run: |
+        cd service1/tests
+        pytest --maxfail=1 --disable-warnings -q
+
+    # Run unit tests for Service2
+    - name: Run unit tests for Service2
+      run: |
+        cd service2/tests
+        pytest --maxfail=1 --disable-warnings -q
+
+    # Run E2E tests
+    - name: Run E2E tests
+      run: |
+        cd e2e_tests
+        pytest --maxfail=1 --disable-warnings -q
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
@@ -22,6 +48,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
 
     - name: Build and push Service1 Docker image
+      if: success()
       uses: docker/build-push-action@v3
       with:
         context: ./service1
@@ -30,6 +57,7 @@ jobs:
         platforms: linux/amd64,linux/arm64
 
     - name: Build and push Service2 Docker image
+      if: success()
       uses: docker/build-push-action@v3
       with:
         context: ./service2
