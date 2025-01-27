@@ -5,7 +5,7 @@ on:
     tags:
       - 'v*'
 jobs:
-  build_and_push:
+  test_build_push:
     runs-on: ubuntu-latest
 
     steps:
