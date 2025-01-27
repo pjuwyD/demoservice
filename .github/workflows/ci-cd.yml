@@ -21,16 +21,18 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
 
-    - name: Build and push Service1 Docker image using Debian Bookworm
+    - name: Build and push Service1 Docker image
       uses: docker/build-push-action@v3
       with:
         context: ./service1
         push: true
         tags: pjuwy/service1:${{ github.ref_name }} 
+        platform: linux/amd64,linux/arm64
 
-    - name: Build and push Service2 Docker image using Debian Bookworm
+    - name: Build and push Service2 Docker image
       uses: docker/build-push-action@v3
       with:
         context: ./service2
         push: true
         tags: pjuwy/service2:${{ github.ref_name }}
+        platform: linux/amd64,linux/arm64
