@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   service1:
-    image: service1
+    image: pjuwy/service1:latest
     container_name: service1
     networks:
       - microservices-network
@@ -10,7 +10,7 @@ services:
       - 8080
 
   service2:
-    image: service2
+    image: pjuwy/service2:latest
     container_name: service2
     networks:
       - microservices-network
