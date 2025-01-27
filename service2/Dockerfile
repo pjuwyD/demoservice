@@ -1,5 +1,5 @@
 FROM python:3.13-slim
-
+RUN echo "Building for architecture: $(dpkg --print-architecture)"
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && curl -sL https://github.com/openfaas/of-watchdog/releases/download/0.10.7/fwatchdog-arm64 > /usr/bin/fwatchdog \
     && chmod +x /usr/bin/fwatchdog\
