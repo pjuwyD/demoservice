@@ -53,6 +53,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASS }}
 
     - name: Build and push Docker image
+      if: success()
       uses: docker/build-push-action@v3
       with:
         context: ./${{ matrix.service }}
