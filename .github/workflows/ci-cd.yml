@@ -2,11 +2,17 @@ name: CI/CD Pipeline for Service1 and Service2
 
 on:
   push:
+    branches:
+      - 'main'  # Triggers on commits only to the 'main' branch
     tags:
-      - 'v*'
+      - 'v*'  # Triggers when tags matching the pattern are pushed
+
 jobs:
   test_build_push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [service1, service2]  # Define a matrix with the services
 
     steps:
     - name: Checkout the code
@@ -21,11 +27,13 @@ jobs:
       run: pip install pytest
 
     - name: Run unit tests for Service1
+      if: matrix.service == 'service1'
       run: |
         cd service1/tests
         pytest --maxfail=1 --disable-warnings -q
 
     - name: Run unit tests for Service2
+      if: matrix.service == 'service2'
       run: |
         cd service2/tests
         pytest --maxfail=1 --disable-warnings -q
@@ -44,20 +52,11 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PASS }}
 
-    - name: Build and push Service1 Docker image
-      if: success()
+    - name: Build and push Docker image
       uses: docker/build-push-action@v3
       with:
-        context: ./service1
+        context: ./${{ matrix.service }}  # Dynamically set the context based on the service
         push: true
-        tags: pjuwy/service1:${{ github.ref_name }}, pjuwy/service1:latest
-        platforms: linux/amd64,linux/arm64
-
-    - name: Build and push Service2 Docker image
-      if: success()
-      uses: docker/build-push-action@v3
-      with:
-        context: ./service2
-        push: true
-        tags: pjuwy/service2:${{ github.ref_name }}, pjuwy/service2:latest
-        platforms: linux/amd64,linux/arm64
+        tags: |
+          pjuwy/${{ matrix.service }}:latest
+          ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && 'pjuwy/' + matrix.service + ':' + github.ref_name }}
