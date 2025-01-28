@@ -1,0 +1,14 @@
+service1:
+  image:
+    repository: pjuwy/service1
+    tag: latest
+
+service2:
+  image:
+    repository: pjuwy/service2
+    tag: latest
+  service1Url: http://service1:8080
+
+ingress:
+  enabled: true
+  host: service2.local

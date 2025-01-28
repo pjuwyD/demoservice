@@ -1,0 +1,4 @@
+apiVersion: v2
+name: service-chart
+description: A Helm chart for deploying service1 and service2 with customizable image tags.
+version: 0.1.0
