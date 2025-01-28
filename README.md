@@ -27,7 +27,7 @@ Continious integration is ensured using github workflow (see .github/workflows/c
 
 This was parallelised using matrix of services (service1 and service2). The job will be executed on two workers, one for each service. The unit test will run depending on the context - for service1 or service2, and build will also run per service.
 
-This resulted in improvement of around a minute in the building process (~60 sec comapring to ~90 sec).
+This resulted in improvement of around a minute in the building process (~60 sec comapring to ~90 sec). If not built for 2 architectures, build process would finish in around 40 seconds.
 
 ## Deployment in docker
 For the purpose of conteinerised deployment, two approaches are implemented:
