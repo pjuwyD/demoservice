@@ -82,7 +82,7 @@ fi
 docker run -d --name service1 --network $NETWORK_NAME pjuwy/service1:$SERVICE1_TAG
 
 SERVICE1_URL="http://service1:8080"
-
+echo "run -d --name service2 --network $NETWORK_NAME -e SERVICE1_URL=$SERVICE1_URL -p $SERVICE2_PORT:8080 pjuwy/service2:$SERVICE2_TAG"
 docker run -d --name service2 --network $NETWORK_NAME -e SERVICE1_URL=$SERVICE1_URL -p $SERVICE2_PORT:8080 pjuwy/service2:$SERVICE2_TAG
 
 sleep 5
