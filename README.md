@@ -1,2 +1,2 @@
-# demoservice
+# Demo Services
 Demo microservice design
