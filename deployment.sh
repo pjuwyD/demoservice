@@ -13,7 +13,7 @@ NETWORK_NAME="demo_network"
 
 # Help message
 usage() {
-  echo -e "${YELLOW}Usage: $0 [OPTIONS]${RESET}"
+  echo -e "Usage: $0 [OPTIONS]"
   echo ""
   echo "Options:"
   echo "  --service1_tag=<tag>    Docker tag for service1 (default: latest)"
