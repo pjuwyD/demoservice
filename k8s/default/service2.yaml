@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service2
+  labels:
+    app: service2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service2
+  template:
+    metadata:
+      labels:
+        app: service2
+    spec:
+      containers:
+      - name: service2
+        image: pjuwy/service2:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SERVICE1_URL
+          value: http://service1:8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service2
+spec:
+  selector:
+    app: service2
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
