@@ -3,16 +3,16 @@ name: CI/CD Pipeline for Service1 and Service2
 on:
   push:
     branches:
-      - 'main'  # Triggers on commits only to the 'main' branch
+      - 'main'
     tags:
-      - 'v*'  # Triggers when tags matching the pattern are pushed
+      - 'v*'
 
 jobs:
   test_build_push:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [service1, service2]  # Define a matrix with the services
+        service: [service1, service2]
 
     steps:
     - name: Checkout the code
@@ -55,8 +55,9 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v3
       with:
-        context: ./${{ matrix.service }}  # Dynamically set the context based on the service
+        context: ./${{ matrix.service }}
         push: true
         tags: |
           pjuwy/${{ matrix.service }}:latest
-          ${{ format('pjuwy/{0}:{1}', matrix.service, github.ref_name) }}
+          ${{ github.ref }}
+      if: github.ref != 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
