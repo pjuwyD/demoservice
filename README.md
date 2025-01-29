@@ -29,6 +29,8 @@ This was parallelised using matrix of services (service1 and service2). The job 
 
 This resulted in improvement of around a minute in the building process (~60 sec comapring to ~90 sec). If not built for 2 architectures, build process would finish in around 40 seconds.
 
+Images can be found on the [Docker Hub repo](https://hub.docker.com/u/pjuwy).
+
 ## Deployment in docker
 For the purpose of conteinerised deployment, two approaches are implemented:
 
@@ -158,4 +160,32 @@ Cluster:
 Execution:
 ![k8s-execution-helm](static/k8s-execution-helm.png)
 
+### Deploy using shell script
+
+Script steps:
+1. Use helm to upgrade or install cluster anew.
+
+Script usage:
+```
+Usage: ./deployment.sh [options]
+Options:
+  --namespace        Kubernetes namespace (default: default)
+  --service1-tag     Tag for service1 image (default: latest)
+  --service2-tag     Tag for service2 image (default: latest)
+  --ingress-host     Host for service2 ingress (default: service2.local)
+  -h, --help         Display this help message
+```
+
+#### Result:
+Script execution:
+
+![k8s-deployment-script](static/k8s-deployment-script.png)
+
+Cluster:
+
+![k8s-cluster-script](static/k8s-cluster-script.png)
+
+Execution:
+
+![k8s-execution-script](static/k8s-execution-script.png)
 
