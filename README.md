@@ -13,7 +13,7 @@ This project demonstrates lifecycle management of two micro services.
 - Docker image can be built for both amd64 and arm64 architecture - this is important because of the fwatchdog that is built for specific version
 
 ## CI-CD
-Continious integration is ensured using github workflow (see .github/workflows/ci-cd.yml). Workflow is configured to be triggered whenever new tag (e.g., v2.0.0) is published - to push image woth the release tag, or on each commit to push latest image. The flow is as follows:
+Continious integration is ensured using github workflow (see .github/workflows/ci-cd.yml). Workflow is configured to be triggered whenever new tag (e.g., v2.0.0) is published - to push image with the release tag, or on each commit to push the image with the latest tag. The flow is as follows:
 1. Chekout the source code
 2. Setup Python (3.13, for pytest)
 3. Install pytest
@@ -27,9 +27,9 @@ Continious integration is ensured using github workflow (see .github/workflows/c
 
 This was parallelised using matrix of services (service1 and service2). The job will be executed on two workers, one for each service. The unit test will run depending on the context - for service1 or service2, and build will also run per service.
 
-This resulted in improvement of around a minute in the building process (~60 sec comapring to ~90 sec). If not built for 2 architectures, build process would finish in around 40 seconds.
+This resulted in improvement of around half a minute in the building process (~60 sec comapring to ~90 sec). If not built for 2 architectures, build process would finish in around 40 seconds.
 
-Images can be found on the [Docker Hub repo](https://hub.docker.com/u/pjuwy).
+Published images can be found on the [Docker Hub repo](https://hub.docker.com/u/pjuwy).
 
 ## Deployment in docker
 For the purpose of conteinerised deployment, two approaches are implemented:
