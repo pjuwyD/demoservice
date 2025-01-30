@@ -11,6 +11,8 @@ This project demonstrates lifecycle management of two micro services.
 - Image size is greatly reduced by using python:3.13-slim instead of full python,
 - By specifying a specific Python version, you ensure compatibility and stability, avoiding potential issues with future updates, and
 - Docker image can be built for both amd64 and arm64 architecture - this is important because of the fwatchdog that is built for specific version
+- New user and group was created service1/2:service1/2 in order not to use root user to execute fwatchdog on entrypoint
+- fwatchdog is installed in /usr/local/bin which is accessible to non-root users
 
 ## CI-CD
 Continious integration is ensured using github workflow (see .github/workflows/ci-cd.yml). Workflow is configured to be triggered whenever new tag (e.g., v2.0.0) is published - to push image with the release tag, or on each commit (i.e., to the main branch, not to the feature/bugfixes branches) to push the image with the latest tag. The flow is as follows:
