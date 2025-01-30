@@ -7,19 +7,19 @@ This project demonstrates lifecycle management of two micro services.
 "*Service2*" - reads website given as an input, sends it to the Service1 (together with the hashing algorithm, hardcoded to md5) and returns hashed message
 
 ## Improvements over default example
-- Both microservices are written for Python3,
+- Both microservices are written in Python3,
 - Image size is greatly reduced by using python:3.13-slim instead of full python,
 - By specifying a specific Python version, you ensure compatibility and stability, avoiding potential issues with future updates,
-- Docker image can be built for both amd64 and arm64 architecture - this is important because of the fwatchdog that is built for specific version,
+- Docker image can be built for both amd64 and arm64 architectures - this is important because of the fwatchdog that is built for specific version,
 - New user and group was created service1/2:service1/2 in order not to use root user to execute fwatchdog on entrypoint, and
 - fwatchdog is installed in /usr/local/bin which is accessible to non-root users.
 
 ## CI-CD
-Continious integration is ensured using github workflow (see .github/workflows/ci-cd.yml). Workflow is configured to be triggered whenever new tag (e.g., v2.0.0) is published - to push image with the release tag, or on each commit (i.e., to the main branch, not to the feature/bugfixes branches) to push the image with the latest tag. The flow is as follows:
-1. Chekout the source code
+Continuous integration is ensured using github workflow (see .github/workflows/ci-cd.yml). Workflow is configured to be triggered whenever new tag (e.g., v2.0.0) is published - to push image with the release tag, or on each commit (i.e., to the main branch, not to the feature/bugfixes branches) to push the image with the latest tag. The flow is as follows:
+1. Checkout the source code
 2. Setup Python (3.13, for pytest)
 3. Install pytest
-4. Run unit test for Service1
+4. Run unit tests for Service1
 5. Run unit tests for Service2
 6. Run e2e tests
 7. Setup docker buildx (for multiplatform images)
@@ -29,17 +29,16 @@ Continious integration is ensured using github workflow (see .github/workflows/c
 
 This was parallelised using matrix of services (service1 and service2). The job will be executed on two workers, one for each service. The unit test will run depending on the context - for service1 or service2, and build will also run per service.
 
-This resulted in improvement of around half a minute in the building process (~60 sec comapring to ~90 sec). If not built for 2 architectures, build process would finish in around 40 seconds.
+This resulted in improvement of around half a minute in the building process (~60 sec comparing to ~90 sec). If not built for 2 architectures, build process would finish in around 40 seconds.
 
 Published images can be found on the [Docker Hub repo](https://hub.docker.com/u/pjuwy).
 
 ## Deployment in docker
-For the purpose of conteinerised deployment, two approaches are implemented:
+For the purpose of containerized deployment, two approaches are implemented:
 
 ### Deploy using docker compose
 
-Docker compose is configured to use latest image, and passes environment variable `SERVICE1_URL` to the service2.
-Service2 exposes port 8080 to local port 8080 for the testing purposes. Common docker network is created so containers can comminicate using names.
+Docker compose is configured to use latest image, and passes environment variable `SERVICE1_URL` to the service2. Service2 exposes port 8080 to local port 8080 for the testing purposes. Common docker network is created so containers can communicate using names.
 
 Full docker compose:
 ```
