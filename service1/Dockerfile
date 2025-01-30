@@ -2,7 +2,7 @@ FROM python:3.13-slim
 
 RUN echo "Building for architecture: $(dpkg --print-architecture)"
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl 
+RUN apt-get update && apt-get install -y --no-install-recommends curl && apt-get clean
 
 RUN groupadd --system service1 && useradd --system --create-home --no-log-init -g service1 service1
 
